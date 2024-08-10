@@ -37,3 +37,8 @@
 [] Listar todos os empréstimos abertos, com nome do livro e ISBN, nome do usuário, CPF, data de saída e data de devolução. Ordenados pelo data de devolução mias antigo.
 
 ## Structures
+
+## User Repository
+[] cadastrar: ({ nome, CPF, telefone, email }) => Promise<void>
+
+

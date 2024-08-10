@@ -1,0 +1,21 @@
+{
+  "name": "reserve-book",
+  "version": "1.0.0",
+  "description": "system for reserving books from a library",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^29.7.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12"
+  }
+}
