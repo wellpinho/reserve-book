@@ -3,8 +3,11 @@ const { AppError } = require("../../../shared/errors/AppError");
 
 describe('Services User', () => {
     const userRepository = {
-        create: jest.fn()
+        create: jest.fn(),
+        userExists: jest.fn()
     }
+
+    userRepository.userExists.mockResolvedValue(true);
 
     it('should create an user successfully', async () => {
         // Given
@@ -15,6 +18,8 @@ describe('Services User', () => {
             address: 'test street',
             phone: '1234567890'
         };
+
+        userRepository.userExists.mockResolvedValue(false)
 
         // When
         const user = createUserService({ userRepository });
@@ -37,5 +42,24 @@ describe('Services User', () => {
 
     it('should receive an throw AppError if userRepository not informed', async () => {
         expect(() => createUserService({})).toThrow(new AppError('userRepository is required'));
+    });
+
+    it('should receive an throw AppError if user already exists', async () => {
+        //given
+        const userDto = {
+            username: 'test',
+            CPF: '123_CPF_já_cadastrado',
+            email: 'test@example.com',
+            address: 'test street',
+            phone: '1234567890'
+        };
+
+        userRepository.userExists.mockResolvedValue(true)
+
+        // When
+        const user = createUserService({ userRepository });
+
+        // Then
+        await expect(() => user(userDto)).rejects.toThrow(new AppError('user already exists'));
     });
 });

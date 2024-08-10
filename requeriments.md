@@ -13,8 +13,8 @@
 3. Reserve: [userId, bookId, returnPeriod(prazoDevolucao), returnDate(dataDevolucao), departureDate(dataSaida)]
 
 ## Rules (Use Case)
-[] Create a new user
-[] - socialId or email should be unique
+[x] Create a new user
+[] - CPF or email should be unique
 
 [] Get user register by socialId
 [] - Return users or empty array
