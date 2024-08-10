@@ -6,10 +6,16 @@ const createUserService = ({ userRepository }) => {
     }
 
     // useCase recebe o DTO
-    return async ({ username, socialId, email, address, phone }) => {
+    return async ({ username, CPF, email, address, phone }) => {
+        const checkParams = (username && CPF && address && phone);
+
+        if(!checkParams) {
+            throw new AppError('all params is required');
+        }
+
         // Repassa o DTO para o repository
         await userRepository.create({
-            username, socialId, email, address, phone 
+            username, CPF, email, address, phone 
         });
     };
 }

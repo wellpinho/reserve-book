@@ -10,7 +10,7 @@ describe('Services User', () => {
         // Given
         const userDto = {
             username: 'test',
-            socialId: '123',
+            CPF: '123',
             email: 'test@example.com',
             address: 'test street',
             phone: '1234567890'
@@ -26,7 +26,16 @@ describe('Services User', () => {
         expect(userRepository.create).toHaveBeenCalledTimes(1);
     });
 
+    it('should receive an throw AppError if one or more param required is not informed', async () => {
+        // When
+        const user = createUserService({ userRepository });
+
+        // Then
+        // quando for uma execução asyncrona precisamos usar await com rejects do expecte
+        await expect(() => user({})).rejects.toThrow(new AppError('all params is required'));
+    });
+
     it('should receive an throw AppError if userRepository not informed', async () => {
-        expect(() => createUserService({})).toThrow(new AppError('userRepository is required', 400));
+        expect(() => createUserService({})).toThrow(new AppError('userRepository is required'));
     });
 });
