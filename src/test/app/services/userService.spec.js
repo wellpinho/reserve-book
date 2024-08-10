@@ -1,5 +1,5 @@
 const createUserService = require("../../../app/services/userService");
-const { AppError } = require("../../../shared/errors/AppError");
+const { AppError } = require("../../../shared");
 
 describe('Services User', () => {
     const userRepository = {
@@ -26,7 +26,7 @@ describe('Services User', () => {
         const result = await user(userDto);
 
         // Then
-        expect(result).toStrictEqual(undefined);
+        expect(result).toBeNull;
         expect(userRepository.create).toHaveBeenCalledWith(userDto);
         expect(userRepository.create).toHaveBeenCalledTimes(1);
     });
@@ -34,10 +34,11 @@ describe('Services User', () => {
     it('should receive an throw AppError if one or more param required is not informed', async () => {
         // When
         const user = createUserService({ userRepository });
-
+        const result = await user({});
+        
         // Then
         // quando for uma execução asyncrona precisamos usar await com rejects do expecte
-        await expect(() => user({})).rejects.toThrow(new AppError('all params is required'));
+        expect(result.error).toStrictEqual('all params is required');
     });
 
     it('should receive an throw AppError if userRepository not informed', async () => {
@@ -58,8 +59,12 @@ describe('Services User', () => {
 
         // When
         const user = createUserService({ userRepository });
+        const response = await user(userDto);
 
         // Then
-        await expect(() => user(userDto)).rejects.toThrow(new AppError('user already exists'));
+        expect(response.success).toBeNull;
+        expect(response.error).toStrictEqual({ message: 'cpf already exists' });
+        expect(userRepository.userExists).toHaveBeenCalledWith(userDto.CPF);
+        expect(userRepository.userExists).toHaveBeenCalledTimes(1);
     });
 });

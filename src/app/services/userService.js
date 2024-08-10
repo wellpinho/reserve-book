@@ -1,28 +1,26 @@
-const { AppError } = require("../../shared/errors/AppError");
+const { AppError, Either } = require("../../shared");
 
 const createUserService = ({ userRepository }) => {
     if (!userRepository) {
         throw new AppError('userRepository is required');
     }
 
-    // useCase recebe o DTO
     return async ({ username, CPF, email, address, phone }) => {
-        // Sempre devemos checar os campos antes de fazer busca no banco
-        // imagine buscar um user no banco pelo CPF sendo que o CPF nem foi informado no parâmetro?
         const checkParams = (username && CPF && address && phone);
         if(!checkParams) {
-            throw new AppError('all params is required');
+            return Either.error('all params is required');
         }
 
         const checkUserExists = await userRepository.userExists(CPF);
         if (checkUserExists) {
-            throw new AppError('user already exists');
+            return Either.error(Either.userExists('cpf'));
         }
 
-        // Repassa o DTO para o repository
         await userRepository.create({
             username, CPF, email, address, phone 
         });
+
+        return Either.success(null);
     };
 }
 
