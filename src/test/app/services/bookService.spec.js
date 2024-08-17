@@ -1,8 +1,9 @@
 const { createBookService } = require("../../../app/services/bookService");
+const { AppError } = require("../../../shared");
 
 describe('bookService', () => {
     it('should receive an throw AppError if bookRepository not informed', async () => {
-        expect(() => createBookService({})).toThrow(new Error('bookRepository is required'));
+        expect(() => createBookService({})).toThrow(new AppError('bookRepository is required'));
     });
 
     describe('createBookService', () => {
@@ -31,8 +32,9 @@ describe('bookService', () => {
 
         it('should receive an throw AppError if all params not informed', async () => {
             const book = createBookService({ bookRepository });
-            const error = await book({  title: 'Test', author: 'Test'});
-            expect(error).toThrow(new Error('bookRepository is required'));
+
+            // o rejects é devido o await no response lá da func
+            expect(() => book({})).rejects.toThrow(new AppError('all params is required'));
         });
     });
 

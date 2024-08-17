@@ -115,8 +115,8 @@ describe('Services User', () => {
             const response = await user(cpf);
     
             // Then
-            expect(response.success).toStrictEqual([expected]);
-            expect(response).toHaveBeenCalled(1);
+            expect(response.success[0]).toStrictEqual(expected);
+            expect(response.success).toHaveLength(1);
         });
         it('should receive empty array if user not exists', async () => {
             //given
