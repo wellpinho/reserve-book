@@ -19,7 +19,7 @@
 [x] Get user register by cpf
 [x] - Return users or null if user not exists
 
-[] Create a new book
+[x] Create a new book
 [] - ISBN should be unique
 
 [] Get a book by name or ISBN
