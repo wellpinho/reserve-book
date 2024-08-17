@@ -1,4 +1,4 @@
-const createUserService = require("../../../app/services/userService");
+const {createUserService, getUserService} = require("../../../app/services/userService");
 const { AppError } = require("../../../shared");
 
 describe('Services User', () => {
@@ -6,11 +6,8 @@ describe('Services User', () => {
         create: jest.fn(),
         userExists: jest.fn(),
         emailExists: jest.fn(),
+        getUser: jest.fn(),
     }
-
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
 
     it('should create an user successfully', async () => {
         // Given
@@ -70,5 +67,29 @@ describe('Services User', () => {
         expect(response.error).toStrictEqual({ message: 'email already exists' });
         expect(userRepository.emailExists).toHaveBeenCalledWith(userDto.email);
         expect(userRepository.emailExists).toHaveBeenCalledTimes(1);
+    });
+
+    it('should receive an user if already exists', async () => {
+        //given
+        const cpf = 'CPF_CADASTRADO';
+
+        // expected
+        const expected = {
+            username: 'test',
+            CPF: 'CPF_CADASTRADO',
+            email: 'email_já_cadastrado@example.com',
+            address: 'test street',
+            phone: '1234567890'
+        }
+
+        userRepository.getUser.mockResolvedValue(expected);
+
+        // When
+        const user = getUserService({ userRepository });
+        const response = await user(cpf);
+
+        // Then
+        expect(response.success).toStrictEqual(expected);
+        expect(response).toHaveBeenCalled(1);
     });
 });

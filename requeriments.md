@@ -16,7 +16,7 @@
 [x] Create a new user
 [x] - CPF or email should be unique
 
-[] Get user register by socialId
+[x] Get user register by cpf
 [] - Return users or empty array
 
 [] Create a new book

@@ -1,6 +1,6 @@
 const tryCatch = (promise) => {
     return promise
-        .then(data => [null, data]
+        .then(data => [data]
     ).catch(err => [err]);
 }
 

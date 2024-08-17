@@ -1,4 +1,21 @@
 const { AppError, Either } = require("../../shared");
+const { tryCatch } = require("../../utils");
+
+const getUserService = ({ userRepository }) => {
+    if (!userRepository) {
+        throw new AppError('userRepository is required');
+    }
+
+    return async (value) => {
+        if(!value) {
+            return Either.error('param is required');
+        }
+
+        const user = await tryCatch(userRepository.getUser(value));
+
+        return Either.success(user);
+    };
+}
 
 const createUserService = ({ userRepository }) => {
     if (!userRepository) {
@@ -30,4 +47,7 @@ const createUserService = ({ userRepository }) => {
     };
 }
 
-module.exports = createUserService
+module.exports = {
+    createUserService,
+    getUserService,
+}
