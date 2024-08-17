@@ -17,7 +17,7 @@
 [x] - CPF or email should be unique
 
 [x] Get user register by cpf
-[] - Return users or empty array
+[x] - Return users or null if user not exists
 
 [] Create a new book
 [] - ISBN should be unique

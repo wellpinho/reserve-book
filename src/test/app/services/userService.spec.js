@@ -92,4 +92,19 @@ describe('Services User', () => {
         expect(response.success).toStrictEqual(expected);
         expect(response).toHaveBeenCalled(1);
     });
+
+    it('should receive empty array if user not exists', async () => {
+        //given
+        const cpf = 'CPF_CADASTRADO';
+
+        // expected
+        userRepository.getUser.mockResolvedValue(null);
+
+        // When
+        const user = getUserService({ userRepository });
+        const response = await user(cpf);
+
+        // Then
+        expect(response.success).toBeNull;
+    });
 });
