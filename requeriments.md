@@ -14,7 +14,7 @@
 
 ## Rules (Use Case)
 [x] Create a new user
-[] - CPF or email should be unique
+[x] - CPF or email should be unique
 
 [] Get user register by socialId
 [] - Return users or empty array
@@ -39,6 +39,8 @@
 ## Structures
 
 ## User Repository
-[] cadastrar: ({ nome, CPF, telefone, email }) => Promise<void>
+[x] cadastrar: ({ nome, CPF, telefone, email }) => Promise<void>
+[x] cpfExists(cpf) => Promise<boolean>
+[x] emailExists(email) => Promise<boolean>
 
 

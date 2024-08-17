@@ -11,10 +11,16 @@ const createUserService = ({ userRepository }) => {
             return Either.error('all params is required');
         }
 
-        const checkUserExists = await userRepository.userExists(CPF);
-        if (checkUserExists) {
+        const checkCpfExists = await userRepository.userExists(CPF);
+        if (checkCpfExists) {
             return Either.error(Either.userExists('cpf'));
         }
+
+        const checkEmailExists = await userRepository.emailExists(email);
+        if (checkEmailExists) {
+            return Either.error(Either.userExists('email'));
+        }
+
 
         await userRepository.create({
             username, CPF, email, address, phone 
